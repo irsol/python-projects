@@ -40,9 +40,9 @@ def top_three_articles():
         select
             articles.title as "Title",
             count(*) as "Views"
-        from articles, log
-        where log.path like concat('%', articles.slug)
-        group by articles.title
+        from log join articles
+        on log.path = concat('/article/', articles.slug)
+        group by "Title"
         order by "Views" desc
         limit 3;
     """
@@ -65,7 +65,7 @@ def top_authors():
             count(*) as "Views"
         from authors, articles, log
         where authors.id = articles.author
-        and log.path like concat('%', articles.slug)
+        and log.path = concat('/article/', articles.slug)
         group by authors.name
         order by "Views" desc
         limit 4;
