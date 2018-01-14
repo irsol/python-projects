@@ -50,3 +50,18 @@ def get_users():
     # convert Python dict to JSON object and set appropriate HTTP headers:
     # "Content-Type:application/json"
     return jsonify(output)
+
+
+@app.route("/get_users_age")
+def get_users_age():
+    sql = "SELECT sum(age) as total_age FROM users"
+
+    results = execute_sql(sql, connection)
+
+    # Results is a list of records
+    # The result of summing is one row and one column
+    # That is why to the get result we select the first row (index 0) and the
+    # first column (index 0)
+    total_age = results[0][0]
+
+    return render_template('users_age.html', age=total_age)
