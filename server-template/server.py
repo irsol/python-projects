@@ -1,11 +1,22 @@
 from flask import Flask
 from flask import jsonify
+from flask import render_template
 from db import connect, execute_sql
 
 app = Flask(__name__)
 
 # Database name specified in Vagrantfile, for example "db_template"
 connection = connect(db_name='db_template')
+
+
+@app.route('/')
+def index_page():
+    return render_template('index.html')
+
+
+@app.route('/nice_page')
+def nice_page():
+    return render_template('nice_page.html')
 
 
 @app.route("/get_users")
